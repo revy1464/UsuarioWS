@@ -427,7 +427,7 @@ public class perfilesUsuarioV {
         }
     }
     
-    public void negarPermo(){
+    public void negarPermo(){//Elimina la relacion entre un perfil y modulo
         System.out.println("Vista.perfilesUsuarioV.negarPermo()--->Entrando");
         try {
             PerfilesModulos pm=new PerfilesModulos();
