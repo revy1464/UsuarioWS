@@ -1,0 +1,283 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>PrimeFaces</title>
+            </f:facet>
+        </h:head>
+
+        <h:body>
+
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" resizable="false" closable="true" collapsible="true">
+                    IPS Fime
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="50" closable="true" collapsible="true">
+                    Trabajo de grado - Jose Manuel Conde
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="200" header="Menu" collapsible="true" >
+                    <h:form><p:menu>
+                            <p:menuitem outcome="/registroUsuario" value="Agregar o actualizar" />
+                            <p:menuitem outcome="/registroPerfiles" value="Perfiles de usuario" />                  
+                        </p:menu>
+                    </h:form>
+                </p:layoutUnit>
+
+                <p:layoutUnit  position="center" header="Gestion de Usuarios">
+                    <h:form id="frmMain">    
+                        <p:messages id="growl" />
+                        <p:panelGrid columns="4" >
+                            <p:panelGrid style="margin-top:10px">
+                                <f:facet name="header">
+                                    <p:row>
+                                        <p:column colspan="4">Datos de Usuario</p:column>
+                                    </p:row>
+                                </f:facet>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel for="txtCedula" value="Cedula" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText  id="txtCedula" binding="#{registroUsuarioV.txtCedula}" required="true"/>
+                                        <p:message for="txtCedula" display="tooltip" />
+                                    </p:column>
+                                    <p:column >
+                                        <p:commandButton binding="#{registroUsuarioV.btnBuscar}" 
+                                                         actionListener="#{registroUsuarioV.showUsuario()}" 
+                                                         id="btnBuscar" update=":frmMain,:frmTable" 
+                                                         icon=" ui-icon-search" 
+                                                         title="Buscar" />
+                                        <p:commandButton binding="#{registroUsuarioV.btnRegistrar}" 
+                                                         actionListener="#{registroUsuarioV.registrar()}" 
+                                                         id="btnRegistrar" update=":frmMain,:frmTable"  disabled="true"
+                                                         icon=" ui-icon-plusthick" 
+                                                         title="Registrar" />
+                                        <p:commandButton binding="#{registroUsuarioV.btnModificar}" 
+                                                         actionListener="#{registroUsuarioV.modificar()}" 
+                                                         id="btnModificar" update=":frmMain,:frmTable"  disabled="true"
+                                                         icon="ui-icon-pencil" 
+                                                         title="Modificar" />
+                                        <p:commandButton binding="#{registroUsuarioV.btnEliminar}" 
+                                                         actionListener="#{registroUsuarioV.eliminar()}"
+                                                         id="btnEliminar" update=":frmMain,:frmTable"  disabled="true"
+                                                         icon=" ui-icon-close" 
+                                                         title="Eliminar" />
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText value="Nombre" ></h:outputText>
+                                        
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText  id="txtNombre" binding="#{registroUsuarioV.txtNombre}" value="#{registroUsuarioV.name}" required="false">
+                                            <p:ajax event="keyup" listener="#{registroUsuarioV.addNewQuestion}" update="btnBuscar,btnRegistrar" />
+                                        </p:inputText>
+                                        <p:message for="txtNombre" display="tooltip" />
+                                        
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="Apellido"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText  id="txtApellido" binding="#{registroUsuarioV.txtApellido}" required="false"/>
+                                        <p:message for="txtApellido" display="tooltip" />
+                                    </p:column>
+                                </p:row>
+
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText value="Direccion"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText  id="txtDireccion" binding="#{registroUsuarioV.txtDireccion}" required="false"/>
+                                        <p:message for="txtDireccion" display="tooltip" />
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="Telefono"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText  id="txtTelefono" binding="#{registroUsuarioV.txtTelefono}" required="false"/>
+                                        <p:message for="txtTelefono" display="tooltip" />
+                                    </p:column>
+                                </p:row>
+
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText value="Celular"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText  id="txtCelular" binding="#{registroUsuarioV.txtCelular}" required="false"/>
+                                        <p:message for="txtCelular" display="tooltip" />
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="Fecha de Nacimiento"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel for="popup" />
+                                        <p:calendar id="popup" value="#{registroUsuarioV.date2}" binding="#{registroUsuarioV.calFechaN}" required="false"/>
+                                        <p:message for="popup" display="tooltip" />
+                                    </p:column>
+                                </p:row>
+
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText value="Email"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText  id="txtEmail" binding="#{registroUsuarioV.txtEmail}" required="false"/>
+                                        <p:message for="txtEmail" display="tooltip" />
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="Profesion" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="txtProfesion" binding="#{registroUsuarioV.txtProfesion}" required="false"/>
+                                        <p:message for="txtProfesion" display="tooltip" />
+                                    </p:column>
+                                </p:row>
+
+                                <p:row>
+                                    <p:column colspan="4" styleClass="ui-widget-header"></p:column>
+                                </p:row>
+
+                            </p:panelGrid>
+                            <p:panelGrid>
+                                <p:row>
+                                    <p:column colspan="2" styleClass="ui-widget-header">Cuenta de Usuario</p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText value="Usuario" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="txtUsuario" binding="#{registroUsuarioV.txtUsuario}" required="false"/>
+                                        <p:message for="txtUsuario" display="tooltip" />
+                                    </p:column>
+                                </p:row>
+                                fsdfsdfsd           
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText value="Contraseña" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:password id="txtContraseña" value="#{registroUsuarioV.password3}" feedback="true" accesskey=""  required="false" label="Contraseña"
+                                                    promptLabel="Por favor introduccir una contraseña" weakLabel="Baja"
+                                                    goodLabel="Media    " strongLabel="Alta" binding="#{registroUsuarioV.txtContraseña}" match="txtContraseñaChek"/>
+                                        <p:message for="txtContraseña" display="tooltip" />
+                                    </p:column>
+                                </p:row>  
+                                <p:row>  
+                                    <p:column>
+                                        <h:outputText value="Verificar Contraseña" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:password id="txtContraseñaChek" value="#{registroUsuarioV.password3}" feedback="true" accesskey="" label="Contraseña" 
+                                                    promptLabel="Por favor introduccir nuevamente contraseña anterior" weakLabel="Baja"
+                                                    goodLabel="Media" strongLabel="Alta" binding="#{registroUsuarioV.txtContraseñaCheck}" required="false"/>
+                                        <p:message for="txtContraseñaChek" display="tooltip" />
+                                    </p:column>
+                                </p:row> 
+                                <p:row >                   
+                                    <p:column>
+                                        <p:outputLabel for="cmbPerfil" value="Perfil: " />
+                                    </p:column>
+                                    <p:column> 
+                                        <p:selectOneMenu id="cmbPerfil" value="#{registroUsuarioV.namePer}" style="width:100px">                                            
+                                            <f:selectItems value="#{registroUsuarioV.listaPerfiles}" />
+                                        </p:selectOneMenu>
+                                        <p:commandButton binding="#{registroUsuarioV.btnAsignarPerfil}" 
+                                                         actionListener="#{registroUsuarioV.addPerfil}" 
+                                                         id="btnAsignarPerfil" update=":frmMain,:frmTable" 
+                                                         icon=" ui-icon-check" 
+                                                         title="Asginar perfil" style="margin-left:10px"
+                                                         disabled="true"/>
+                                    </p:column>     
+                                </p:row>
+                                <p:row><p:column colspan="5" styleClass="ui-widget-header"></p:column></p:row>
+                            </p:panelGrid>
+
+                        </p:panelGrid>
+                        </h:form>
+                        <h:form id="frmTable">
+                        <p:panelGrid columns="1" >
+                            <f:facet name="header" >
+                                           <p:column colspan="9" >Datos de Usuario</p:column>
+                                
+                            </f:facet>
+                            <p:dataTable  id="tabla1" var="user" value="#{registroUsuarioV.listaUsuario}" 
+                                          widgetVar="userTable" emptyMessage="Usuario no encontrado"
+                                          filteredValue="#{registroUsuarioV.filteredUser}"
+                                          style="margin-top:15px"
+                                          paginator="true"                                          
+                                          resizableColumns="true"
+                                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                          rowsPerPageTemplate="5,10,15"
+                                          selectionMode="single"
+                                          selection="#{registroUsuarioV.userSelect}"
+                                          rowKey="#{user.idUsuario}">
+                                <p:ajax event="rowDblselect" listener="#{registroUsuarioV.showSelectDBUser}" update=":frmMain" />
+                                                                 
+
+                                <f:facet name="header" >
+                                    <p:outputPanel>
+                                        <h:outputText value="Buscar usuario: " />
+                                        <p:inputText id="globalFilter" onkeyup="PF('userTable').filter()" style="width:280px " placeholder="Ingrese un criterio de busqueda"/>
+                                    </p:outputPanel>
+                                </f:facet>
+
+                                <p:column headerText="Cedula" filterBy="#{user.cedulaUsuario}" filterMatchMode="contains">                                 
+                                    <h:outputText value="#{user.cedulaUsuario}"  style="font-size:14px"/>                                   
+                                </p:column>
+
+                                <p:column headerText="Nombre" filterBy="#{user.nombreUsuario}" filterMatchMode="contains">
+                                 <h:outputText value="#{user.nombreUsuario}" style="font-size:14px"/>   
+                                </p:column>
+                                
+                                <p:column headerText="Apellido" filterBy="#{user.apellidoUsuario}" filterMatchMode="contains">
+                                <h:outputText value="#{user.apellidoUsuario}" style="font-size:14px"/>   
+                                </p:column>
+                                <p:column headerText="Direccion" filterBy="#{user.direccioUsuario}" filterMatchMode="contains">
+                                <h:outputText value="#{user.direccioUsuario}" style="font-size:14px"/>   
+                                </p:column>
+                                <p:column headerText="Telefono" filterBy="#{user.telefonoUsuario}" filterMatchMode="contains">
+                               <h:outputText value="#{user.telefonoUsuario}" style="font-size:14px"/>   
+                                </p:column>
+                                <p:column headerText="Celular" filterBy="#{user.celularUsuario}" filterMatchMode="contains">
+                                 <h:outputText value="#{user.celularUsuario}" style="font-size:14px"/>
+                                </p:column>
+                                <p:column headerText="Correo" filterBy="#{user.emailUsuario}" filterMatchMode="contains" >
+                                  <h:outputText value="#{user.emailUsuario}" style="font-size:14px"/>  
+                                </p:column>
+                                <p:column headerText="Profesion" filterBy="#{user.profesionUsuario}" filterMatchMode="contains">
+                                 <h:outputText value="#{user.profesionUsuario}" style="font-size:14px"/>   
+                                </p:column>
+                                <p:column style="width:32px;text-align: center">
+                                    <p:commandButton update=":frmMain" action="#{registroUsuarioV.showSelectRowUsuario(e)}" icon="ui-icon-pencil" title="View">
+                                        <f:setPropertyActionListener value="#{user}" target="#{registroUsuarioV.userSelect}" />
+                                    </p:commandButton>
+                                    
+                                </p:column>
+                            </p:dataTable>
+                        </p:panelGrid>
+                    </h:form>
+                </p:layoutUnit>
+
+
+            </p:layout>
+
+        </h:body>
+
+    </f:view>
+</html>
+

@@ -1,0 +1,208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>PrimeFaces</title>
+            </f:facet>
+        </h:head>
+
+        <h:body>
+
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" resizable="false" closable="true" collapsible="true">
+                    IPS Fime
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="50" closable="true" collapsible="true">
+                    Trabajo de grado - Jose Manuel Conde
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="200" header="Menu" collapsible="true" >
+                    <h:form><p:menu>
+                        <p:menuitem outcome="/registroUsuario" value="Agregar o actualizar" />                        
+                        <p:menuitem outcome="/registroPerfiles" value="Perfiles de usuario" />
+                    </p:menu></h:form>
+                </p:layoutUnit>
+
+                <p:layoutUnit  position="center" header="Gestion de Usuarios">
+                    <h:form id="frmMain">    
+                        <p:growl id="growl" showDetail="true" sticky="true" />
+                        <p:panelGrid columns="4" >
+                            <p:panelGrid style="margin-top:10px">
+                                    <p:row>
+                                        <p:column colspan="2" styleClass="ui-widget-header">Perfiles</p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column >
+                                            <p:outputLabel for="cmbPerfil" value="Perfil " />
+                                            <p:selectOneMenu id="cmbPerfil" value="#{perfilesUsuarioV.namePer}" effect="fold" editable="true">
+                                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                                <f:selectItems value="#{perfilesUsuarioV.listaPerfiles}" />
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column >
+                                            <p:commandButton binding="#{perfilesUsuarioV.btnBuscarPer}" 
+                                                             actionListener="#{perfilesUsuarioV.showSelectPer()}" 
+                                                             id="btnBuscarPer" update="frmMain,growl" 
+                                                             icon=" ui-icon-search" 
+                                                             title="Buscar" />
+                                            <p:commandButton binding="#{perfilesUsuarioV.btnRegistrarPer}" 
+                                                             actionListener="#{perfilesUsuarioV.registrarPer()}" 
+                                                             id="btnRegistrarPer" update="frmMain,growl" 
+                                                             icon=" ui-icon-plusthick" 
+                                                             title="Registrar" />
+                                            <p:commandButton binding="#{perfilesUsuarioV.btnModificarPer}" 
+                                                             actionListener="#{perfilesUsuarioV.modificarPer()}" 
+                                                             id="btnModificarPer" update="frmMain,growl" 
+                                                             icon="ui-icon-pencil" 
+                                                             title="Modificar" />
+                                            <p:commandButton binding="#{perfilesUsuarioV.btnEliminarPer}" 
+                                                             actionListener="#{perfilesUsuarioV.eliminarPer()}"
+                                                             id="btnEliminarPer" update="frmMain,growl" 
+                                                             icon=" ui-icon-close" 
+                                                             title="Eliminar" />
+                                        </p:column>
+                                        
+                                        
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <h:outputText value="Nombre"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText  id="txtNombrePerfil" binding="#{perfilesUsuarioV.txtNombrePerfil}"/>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <h:outputText value="Descripcion"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText  id="txtDescripcionPerfil" binding="#{perfilesUsuarioV.txtDescripcionPerfil}"/>
+                                        </p:column>
+                                    </p:row>
+
+                                    </p:panelGrid>
+                                    <p:panelGrid style="margin-top:10px">
+                                    <p:row>
+                                        <p:column colspan="2" styleClass="ui-widget-header">Modulos</p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column >
+                                            <p:outputLabel for="cmbModulo" value="Modulo " />
+                                            <p:selectOneMenu id="cmbModulo" value="#{perfilesUsuarioV.nameMod}" effect="fold" editable="true">
+                                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                                <f:selectItems value="#{perfilesUsuarioV.listaModulos}" />
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column >
+                                            <p:commandButton binding="#{perfilesUsuarioV.btnBuscarMod}" 
+                                                             actionListener="#{perfilesUsuarioV.showSelectMod()}" 
+                                                             id="btnBuscar" update="frmMain,growl" 
+                                                             icon=" ui-icon-search" 
+                                                             title="Buscar" />
+                                            <p:commandButton binding="#{perfilesUsuarioV.btnRegistrarMod}" 
+                                                             actionListener="#{perfilesUsuarioV.registrarMod()}" 
+                                                             id="btnRegistrar" update="frmMain,growl" 
+                                                             icon=" ui-icon-plusthick" 
+                                                             title="Registrar" />
+                                            <p:commandButton binding="#{perfilesUsuarioV.btnModificarMod}" 
+                                                             actionListener="#{perfilesUsuarioV.modificarMod()}" 
+                                                             id="btnModificar" update="frmMain,growl" 
+                                                             icon="ui-icon-pencil" 
+                                                             title="Modificar" />
+                                            <p:commandButton binding="#{perfilesUsuarioV.btnEliminarMod}" 
+                                                             actionListener="#{perfilesUsuarioV.eliminarMod()}"
+                                                             id="btnEliminar" update="frmMain,growl" 
+                                                             icon=" ui-icon-close" 
+                                                             title="Eliminar" />
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <h:outputText value="Nombre"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText  id="txtNombreModulo" binding="#{perfilesUsuarioV.txtNombreModulo}" />
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <h:outputText value="Descripcion"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText  id="txtDescripcionModulo" binding="#{perfilesUsuarioV.txtDescripcionModulo}" />
+                                        </p:column>
+                                    </p:row>    
+
+
+                                </p:panelGrid>
+                            <p:panelGrid>
+                                                                    <p:row>
+                                        <p:column colspan="2" styleClass="ui-widget-header"> Asignaciones</p:column>
+                                    </p:row>
+                                    
+                                    <p:row>
+                                        <p:column colspan="2" styleClass="ui-widget-header"> </p:column>
+                                    </p:row>
+                            <p:row>
+                                        <p:column>
+                                            <p:commandButton id="btnAsignar" binding="#{perfilesUsuarioV.btnAsignar}" action="#{perfilesUsuarioV.asignarPermo()}" update=":frmMain,:frmTable" value="Asignar modulo"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:commandButton id="btnNegar" binding="#{perfilesUsuarioV.btnNegar}" action="#{perfilesUsuarioV.negarPermo()}" update=":frmMain,:frmTable" value="Negar modulo" disabled="true"/>
+                                        </p:column>
+                                    </p:row>
+                                </p:panelGrid>
+                        </p:panelGrid>
+                    </h:form>
+                    <h:form id="frmTable">
+                                                <p:panelGrid style="margin-top:10px">
+                                <p:row>
+                                    <p:column colspan="2" styleClass="ui-widget-header">Asignaciones</p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:dataTable  id="permos" var="permo" 
+                                                      value="#{perfilesUsuarioV.listaPermo}" 
+                                                      selectionMode="single" 
+                                                      selection="#{perfilesUsuarioV.permoSelect}" 
+                                                      rowKey="#{permo.idPerfilesModulos}">
+                                            <p:ajax event="rowSelect" listener="#{perfilesUsuarioV.showSelectPermo}" update=":frmMain" />
+                                            
+                                            <p:column headerText="Id">
+                                                <h:outputText value="#{permo.idPerfilesModulos}" />
+                                            </p:column>
+
+                                            <p:column headerText="Perfil">
+                                                <h:outputText value="#{permo.perfilesidPerfilUsuario}" />
+                                            </p:column>
+                                            <p:column headerText="Modulo">
+                                                <h:outputText value="#{permo.modulosidModulos}" />
+                                            </p:column>
+
+                                        </p:dataTable>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </h:form>
+                    Aqui puede poner la tabla de perfiles con usuarios a manera de resumen
+                </p:layoutUnit>
+
+
+            </p:layout>
+
+        </h:body>
+
+    </f:view>
+</html>
+
