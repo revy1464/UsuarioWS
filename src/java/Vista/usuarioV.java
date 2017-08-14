@@ -147,7 +147,7 @@ public class usuarioV {
     public void setFilteredUser(List<Usuario> filteredUser) {
         this.filteredUser = filteredUser;
     }
-    public void onRowEdit(RowEditEvent event) {
+    public void onRowEdit(RowEditEvent event) { //Revisar este metodo, quizas no es necesario
         try {
             Usuario user=(Usuario) event.getObject();
             usuarioLogica.modificarUsuario(user);
